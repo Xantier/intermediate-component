@@ -1,15 +1,36 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <IntermediateButton
-      :text="'Buttony'"
-      :action="displaySecondButton"/>
+    <div>
+      <h1>Dynamically bound</h1>
+      <component
+        :is="inter"
+        v-bind="{
+        text: 'Buttony',
+        action: displaySecondButton
+      }"
+      />
+      <component
+        v-if="secondButtonVisible"
+        :is="btn"
+        v-bind="{
+        text: 'Second button',
+        action: doThings,
+        color: 'green'
+      }"
+      />
+    </div>
+    <div>
+      <h1>Hard coded dependency</h1>
+      <IntermediateButton
+        :text="'Buttony'"
+        :action="displaySecondButton"/>
 
-    <TestButton
-      v-if="secondButtonVisible"
-      :text="'Second button'"
-      :color="'green'"
-      :action="doThings"/>
+      <TestButton
+        v-if="secondButtonVisible"
+        :text="'Second button'"
+        :color="'green'"
+        :action="doThings"/>
+    </div>
   </div>
 </template>
 
@@ -24,7 +45,9 @@
     },
     data() {
       return {
-        secondButtonVisible: false
+        secondButtonVisible: false,
+        inter: IntermediateButton,
+        btn: TestButton
       }
     },
     methods: {
